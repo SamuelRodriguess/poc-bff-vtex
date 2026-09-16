@@ -1,8 +1,8 @@
 # VTEX BFF POC
 
-A production-ready Backend-for-Frontend (BFF) developed with NestJS to optimize and secure queries for VTEX Intelligent Search.
+A production-ready POC BFF developed with NestJS to optimize and secure queries for VTEX Intelligent Search.
 
-## 🚀 Features
+## Features
 
 - **GraphQL API**: Simplified interface for product searches.
 - **Distributed Caching**: Redis integration to reduce VTEX API latency and costs.
