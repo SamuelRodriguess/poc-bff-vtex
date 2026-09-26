@@ -32,16 +32,27 @@ import { redisStore } from 'cache-manager-redis-yet';
       inject: [ConfigService],
     }),
     CacheModule.registerAsync({
+      isGlobal: true,
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        store: await redisStore({
-          socket: {
-            host: configService.get('REDIS_HOST') || 'localhost',
-            port: Number(configService.get('REDIS_PORT')) || 6379,
-          },
-        }),
-        ttl: Number(configService.get('CACHE_TTL')) || 600,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const redisHost = configService.get<string>('REDIS_HOST');
+
+        if (!redisHost) {
+          return {
+            ttl: Number(configService.get('CACHE_TTL')) || 600,
+          };
+        }
+
+        return {
+          store: await redisStore({
+            socket: {
+              host: redisHost,
+              port: Number(configService.get('REDIS_PORT')) || 6379,
+            },
+          }),
+          ttl: Number(configService.get('CACHE_TTL')) || 600,
+        };
+      },
       inject: [ConfigService],
     }),
     SearchModule,

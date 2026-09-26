@@ -1,71 +1,55 @@
-# VTEX BFF POC
+# VTEX BFF - Product Search Shelf Implementation
 
-A production-ready POC BFF developed with NestJS to optimize and secure queries for VTEX Intelligent Search.
+This project is a Backend-for-Frontend (BFF) developed with NestJS, specifically engineered to implement a resilient **Product Search Shelf** for VTEX Intelligent Search. It serves as the critical orchestration layer between a Next.js frontend and the VTEX API.
 
-## Features
+## 🏗 Architecture
 
-- **GraphQL API**: Simplified interface for product searches.
-- **Distributed Caching**: Redis integration to reduce VTEX API latency and costs.
-- **Fault Tolerance**: Circuit Breaker (Opossum) to prevent cascading failures when VTEX is unstable.
-- **Security**: 
-  - Rate limiting to prevent API abuse.
-  - CORS configuration for domain restriction.
-- **Observability**: Health check endpoint (`/health`) for infrastructure monitoring.
+The system implements a tiered architecture to ensure high availability and low latency:
 
-## 🛠 Tech Stack
+**Next.js Frontend** $\rightarrow$ **NestJS BFF (GraphQL)** $\rightarrow$ **VTEX API (REST/GraphQL)**
 
-- **Framework**: NestJS
-- **API**: GraphQL (Apollo Server)
-- **Cache**: Redis
+### Core Implementation Details:
+- **Resilience (Circuit Breaker)**: Uses `opossum` to monitor VTEX API health. If the API fails or slows down beyond thresholds, the circuit opens, and the BFF returns cached data or a graceful fallback, preventing the frontend from hanging.
+- **Caching Strategy**: Implements a dual-layer caching mechanism (Redis for distributed state, In-memory for hot-path data) using `cache-manager`, significantly reducing the load on VTEX and improving Time-to-First-Byte (TTFB).
+- **Data Normalization**: 
+  - **Price Fixes**: Standardized prices as `Float` to ensure precision for currency formatting.
+  - **Image Mapping**: Implemented a robust mapping logic that prioritizes item-level images but falls back to product-level images, ensuring no product is displayed without a visual.
+- **Protocol Translation**: Maps frontend-friendly GraphQL queries to the specific requirements of the VTEX Search API.
+
+## 🚀 Tech Stack
+
+- **Framework**: [NestJS](https://nestjs.com/)
+- **API**: [Apollo Server / GraphQL](https://www.apollographql.com/)
+- **Resilience**: [Opossum](https://github.com/nodeshift/opossum)
+- **Caching**: `cache-manager` + Redis
 - **HTTP Client**: Axios
-- **Language**: TypeScript
 
-## 🏁 Getting Started
+## 🛠 How to Run
 
 ### Prerequisites
 - Node.js (v18+)
-- Yarn
-- Redis (running locally or via Docker)
+- Redis (optional, for distributed caching)
 
 ### Installation
+```bash
+npm install
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/SamuelRodriguess/poc-bff-vtex.git
-   cd poc-bff-vtex
-   ```
+### Configuration
+Create a `.env` file in the root:
+```env
+VTEX_API_KEY=your_api_key
+VTEX_ACCOUNT=your_account
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
 
-2. Install dependencies:
-   ```bash
-   yarn install
-   ```
+### Development
+```bash
+npm run start:dev
+```
 
-3. Environment Setup:
-   Create a `.env` file in the root directory:
-   ```env
-   VTEX_API_KEY=your_api_key
-   VTEX_ACCOUNT_NAME=your_account_name
-   PORT=3000
-   REDIS_HOST=localhost
-   REDIS_PORT=6379
-   CACHE_TTL=600
-   ALLOWED_ORIGINS=http://localhost:3000
-   RATE_LIMIT_LIMIT=100
-   RATE_LIMIT_TTL=60
-   ```
-
-4. Run the application:
-   ```bash
-   yarn run dev
-   ```
-
-## 📡 Endpoints
-
-- **GraphQL Playground**: `http://localhost:3000/graphql`
-- **Health Check**: `http://localhost:3000/health`
-
-## 🧪 Scripts
-
-- `yarn run build`: Build the project for production.
-- `yarn run start:prod`: Run the built project.
-- `yarn run test`: Run unit tests.
+## 📂 Key Components
+- `src/search/search.service.ts`: The heart of the implementation. Handles VTEX communication, circuit breaking, and caching.
+- `src/search/search.resolver.ts`: Defines the GraphQL schema and entry points for the Search Shelf.
+- `src/search/dto/search-result.dto.ts`: Defines the normalized data structures returned to the frontend.

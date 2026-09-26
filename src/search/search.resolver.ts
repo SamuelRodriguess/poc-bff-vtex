@@ -7,7 +7,10 @@ export class SearchResolver {
   constructor(private readonly searchService: SearchService) {}
 
   @Query(() => SearchResponse)
-  async searchProducts(@Args('query') term: string): Promise<SearchResponse> {
-    return this.searchService.searchProducts(term);
+  async searchProducts(
+    @Args('query') term: string,
+    @Args('count', { defaultValue: 50 }) count: number,
+  ): Promise<SearchResponse> {
+    return this.searchService.searchProducts(term, count);
   }
 }
