@@ -8,7 +8,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,10 +18,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       autoSchemaFile: true,
       introspection: true,
       csrfPrevention: false,
-      plugins: [
-        // Habilita a interface gráfica do Apollo Sandbox no navegador:
-        ApolloServerPluginLandingPageLocalDefault({ embed: true }),
-      ],
+      playground: true,
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
