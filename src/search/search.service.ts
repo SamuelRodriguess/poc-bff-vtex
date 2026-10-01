@@ -5,7 +5,7 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { SearchResponse } from './dto/search-result.dto';
+import { SearchResponse } from './dto/search-result.dto.js';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import CircuitBreaker from 'opossum';
