@@ -1,6 +1,7 @@
 {
   "name": "bff-vtex-poc",
   "version": "0.0.1",
+  "type": "module",
   "description": "",
   "author": "",
   "private": true,
