@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { SearchModule } from './search/search.module';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+import { SearchModule } from './search/search.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CacheModule } from '@nestjs/cache-manager';
