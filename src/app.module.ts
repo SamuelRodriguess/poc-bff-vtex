@@ -18,6 +18,7 @@ import { redisStore } from 'cache-manager-redis-yet';
       driver: ApolloDriver,
       autoSchemaFile: true,
       introspection: true,
+      csrfPrevention: false,
     }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
