@@ -32,8 +32,20 @@ The system implements a tiered architecture to ensure high availability and low 
 
 ### Installation
 ```bash
-npm install
+pnpm install
 ```
+
+## 📜 Available Scripts
+
+Below is the list of available commands managed by **pnpm**:
+
+| Command | Description |
+| :--- | :--- |
+| `pnpm run dev` | Starts the application in development mode with watch mode enabled (`nest start --watch`). |
+| `pnpm run build` | Compiles the TypeScript application into the `/dist` directory. |
+| `pnpm run start` | Starts the NestJS application directly. |
+| `pnpm run start:prod` | Runs the compiled production build from `dist/main.js`. |
+| `pnpm run start:debug` | Starts the application in debug mode with live reload. |
 
 ### Configuration
 Create a `.env` file in the root:
