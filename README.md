@@ -1,7 +1,6 @@
 # VTEX BFF - Product Search Shelf Implementation
 
 This project is a Backend-for-Frontend (BFF) developed with NestJS, specifically engineered to implement a resilient **Product Search Shelf** for VTEX Intelligent Search. It serves as the critical orchestration layer between a Next.js frontend and the VTEX API.
-------------------
 
 <img width="857" height="478" alt="image" src="https://github.com/user-attachments/assets/40ea35a8-ba75-406a-bedf-42805f4dcb33" />
 
